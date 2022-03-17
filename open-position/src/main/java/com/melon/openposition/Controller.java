@@ -1,5 +1,7 @@
 package com.melon.openposition;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +16,19 @@ public class Controller {
     @Autowired
     private Service service;
 
-    @GetMapping("/open-position/title/{title}")
-    public OpenPosition getOpenPosition(@PathVariable String title) {
-
+    @GetMapping("/open-position/addSomeEntity/{title}")
+    public OpenPosition addSomeEntity(@PathVariable String title) {
         OpenPosition openPosition = new OpenPosition();
-        openPosition.setTitle("java");
+        openPosition.setTitle(title);
         openPosition.setStatus("active");
         openPosition.setLanguage("java");
         this.service.addOpenPosition(openPosition);
+
+        return this.service.getOpenPosition(title);
+    }
+
+    @GetMapping("/open-position/title/{title}")
+    public OpenPosition getOpenPosition(@PathVariable String title) {
 
         OpenPosition openPosition2 = this.service.getOpenPosition(title);
         String port = this.environment.getProperty("local.server.port");
