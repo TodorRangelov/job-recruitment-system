@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  mmv-mysql6:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE=openposition3
+      - MYSQL_ALLOW_EMPTY_PASSWORD='yes'
+    ports:
+      - "3307:3306"
+
+  rabbitmq6:
+    image: rabbitmq
+    ports:
+      - "5671:5671"
+      - "5672:5672"
+      - "4369:4369"
+      - "25672:25672"
+
+  mmv6:
+    image: mmv2
+    ports:
+      - "8000:8000"
+    depends_on:
+      - mmv-mysql6
+      - rabbitmq6
+    environment:
+      SPRING_DATASOURCE_URL: 'jdbc:mysql://mmv-mysql6-mysql:3307/openposition3'
+      SPRING_PROFILES_ACTIVE: 'mysql'
+      SPRING_RABBITMQ: rabbitmq
