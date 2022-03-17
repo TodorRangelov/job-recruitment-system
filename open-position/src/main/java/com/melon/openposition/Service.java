@@ -2,6 +2,8 @@ package com.melon.openposition;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 @org.springframework.stereotype.Service
 public class Service {
 
@@ -16,5 +18,13 @@ public class Service {
 
         OpenPosition byTitle = this.repository.findByTitle(title);
         return byTitle;
+    }
+
+    public void add(OpenPosition openPosition) {
+        this.repository.save(openPosition);
+    }
+
+    public List<OpenPosition> getAll() {
+        return this.repository.findAll();
     }
 }
