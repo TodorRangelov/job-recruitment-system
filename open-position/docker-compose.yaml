@@ -1,0 +1,55 @@
+version: '3.7'
+
+services:
+  open-position_h2:
+    image: mmv1
+    ports:
+      - "8000:8000"
+    networks:
+      - MSN
+    depends_on:
+      - naming-server
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+
+  job-recruitment-system:
+    image: job-recruitment-system
+    ports:
+      - "8100:8100"
+    networks:
+      - MSN
+    depends_on:
+      - naming-server
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+
+  api-gateway:
+    image: api-gateway
+    ports:
+      - "8765:8765"
+    networks:
+      - MSN
+    depends_on:
+      - naming-server
+    environment:
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.ZIPKIN.BASEURL: http://zipkin-server:9411/
+
+  naming-server:
+    image: naming-server
+    ports:
+      - "8761:8761"
+    networks:
+      - MSN
+
+  zipkin-server:
+    image: openzipkin/zipkin:2.23
+    ports:
+      - "9411:9411"
+    networks:
+      - MSN
+
+networks:
+  MSN:

@@ -1,0 +1,50 @@
+package com.melon.openposition;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+public class Controller {
+
+    @Autowired
+    private Environment environment;
+    @Autowired
+    private Service service;
+
+    @GetMapping("/open-position/addSomeEntity/{title}")
+    public OpenPosition addSomeEntity(@PathVariable String title) {
+        OpenPosition openPosition = new OpenPosition();
+        openPosition.setTitle(title);
+        openPosition.setStatus("active");
+        openPosition.setLanguage("java");
+        this.service.addOpenPosition(openPosition);
+
+        return this.service.getOpenPosition(title);
+    }
+
+    @GetMapping("/open-position/title/{title}")
+    public OpenPosition getOpenPosition(@PathVariable String title) {
+
+        OpenPosition openPosition2 = this.service.getOpenPosition(title);
+        String port = this.environment.getProperty("local.server.port");
+        openPosition2.setEnvironment(port);
+
+        return openPosition2;
+    }
+
+    @GetMapping("/open-position/getall")
+    public List<OpenPosition> getAll() {
+        List<OpenPosition> response = this.service.getAll();
+        return response;
+    }
+
+    @PostMapping("/open-position/add")
+    public void add(@RequestBody OpenPosition openPosition) {
+        this.service.add(openPosition);
+    }
+}
