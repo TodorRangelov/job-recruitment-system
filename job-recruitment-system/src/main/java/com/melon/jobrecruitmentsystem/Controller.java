@@ -29,7 +29,7 @@ public class Controller {
         return responseEntity;
     }
 
-    @GetMapping("job-recruitment-system/openPosition/feign/{title}")
+    @GetMapping("job-recruitment-system/openPosition/get/{title}")
     public ResponseEntity<Object> getOpenPositionFeign(@PathVariable String title) {
 
         ResponseEntity<Object> responseEntity = proxy.getOpenPosition(title);

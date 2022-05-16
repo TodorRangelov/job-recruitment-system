@@ -12,7 +12,7 @@
 	<artifactId>job-recruitment-system</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>job-recruitment-system</name>
+	<name>job-recruitment-systemZ</name>
 	<description>job recruitment system tool</description>
 	<properties>
 		<java.version>15</java.version>
